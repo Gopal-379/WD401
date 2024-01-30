@@ -24,7 +24,8 @@ function greet(name) {
 
 # Iterative Development Process
 
-<img alt="L1-flowchart" src="flowchart.png">
+![flowchart](https://github.com/Gopal-379/WD401/assets/83073228/4e3a907a-54ef-46c3-a5db-df784638b5fb)
+
 
 - **Explanation:** This flowchart illustrates an iterative development process.
 
