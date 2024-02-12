@@ -86,8 +86,8 @@ const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 };
 ```
 
-# Iterative Development Process
-
+# Iterative Development Process  
+<img width="802" height="1000" alt="L1-flowchart" src="https://github.com/Gopal-379/WD401/assets/83073228/13299eb9-d7f7-41b2-b7c7-daed4162069d">
 
 # Resolving Merge Conflicts
 
