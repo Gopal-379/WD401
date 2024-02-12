@@ -1,77 +1,219 @@
 # Handling Code Review Feedback
 
 ```javascript
-// Code Snippet
-function greet() {
-    console.log("Hello from Developer A.");
-}
+const handlesubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  event.preventDefault();
+
+  try {
+    const response = await fetch(`${API_ENDPOINT}/organisations`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: organisationName,
+        user_name: userName,
+        email: userEmail,
+        password: userPassword,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Sign-up failed with status ${response.status}`);
+    }
+    console.log("Sign-up successful");
+
+    let { token, user } = await res.json();
+    localStorage.setItem("authToken", token);
+    localStorage.setItem("userData", JSON.stringify(user));
+    navigate("/dashboard");
+  } catch (error) {
+    console.error("Sign-up failed:", error);
+  }
+};
 ```
 
 - **Feedback**
-  Consider adding a parameter to the greet function to accept a name for a more personalized greeting.
+  1. Consider maintaining consistency in naming conventions i.e., use of camelCase convention for function names in JavaScript.
+  2. Before making API call consider validating the input data so that unnecessary API calls are prevented.
+  3. Consider using `const` for variables and do not use destructuring for the response.
+  4. Consider assigning the input data to a variable.
 
 # Updated Code
 
 ```javascript
-// Developer A changes to the code snippet
-function greet(name) {
-    // Add a parameter to accept a name for a more personalized greeting
-    console.log(`Hello ${name} from Developer A.`);
-}
-```
+// Maintain consistency in naming conventions
+const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  event.preventDefault();
 
-- **Explanation:** Adding a parameter to accept a name for a more personalized greeting.
+  try {
+    // Assign input data to a variable
+    const formData = {
+      name: organisationName,
+      user_name: userName,
+      email: userEmail,
+      password: userPassword,
+    };
+
+    // Input Validation
+    if (
+      !formData.name ||
+      !formData.user_name ||
+      !formData.email ||
+      !formData.password
+    ) {
+      console.error("One or more required fields are empty");
+      return;
+    }
+
+    const response = await fetch(`${API_ENDPOINT}/organisations`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Sign-up failed with status ${response.status}`);
+    }
+    console.log("Sign-up successful");
+
+    // Use const for variables, and avoid destructuring for response
+    const data = await response.json();
+    localStorage.setItem("authToken", data.token);
+    localStorage.setItem("userData", JSON.stringify(data.user));
+    navigate("/dashboard");
+  } catch (error) {
+    console.error("Sign-up failed:", error);
+  }
+};
+```
 
 # Iterative Development Process
 
-![flowchart](https://github.com/Gopal-379/WD401/assets/83073228/4e3a907a-54ef-46c3-a5db-df784638b5fb)
-
-
-- **Explanation:** This flowchart illustrates an iterative development process.
 
 # Resolving Merge Conflicts
 
 Merge conflicts occur when multiple branches have changes that conflict with each other, typically when changes are made to the same part of a file by different contributors.
 
-- **Scenario:** Developers have modified the logic within the greet function in conflicting ways.
+- **Scenario:** Developers have modified handleSubmit function to include additional error handling to specific HTTP status codes.
 
 #### Code in Branch A of Developer A
 
 ```javascript
-// Developer A's changes
-function greet(name) {
-    if (name) {
-        console.log(`Hello ${name} from Developer A.`);
-    } else {
-        console.log(`Hello from Developer A.`);
+const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  event.preventDefault();
+
+  try {
+    const formData = {
+      name: organisationName,
+      user_name: userName,
+      email: userEmail,
+      password: userPassword,
+    };
+
+    const response = await fetch(`${API_ENDPOINT}/organisations`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Sign-up failed with status ${response.status}`);
     }
-}
+
+    console.log("Sign-up successful");
+
+    const data = await response.json();
+    localStorage.setItem("authToken", data.token);
+    localStorage.setItem("userData", JSON.stringify(data.user));
+    navigate("/dashboard");
+  } catch (error) {
+    console.error("Error occurred during sign-up:", error);
+  }
+};
 ```
 
 #### Code in Branch B of Developer B
 
 ```javascript
-// Developer B's changes
-function greet(name) {
-    console.log(`Hello ${name || 'stranger'} from Developer B.`);
-}
+const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  event.preventDefault();
+
+  try {
+    const formData = {
+      name: organisationName,
+      user_name: userName,
+      email: userEmail,
+      password: userPassword,
+    };
+
+    const response = await fetch(`${API_ENDPOINT}/organisations`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
+
+    if (!response.ok) {
+      if (response.status === 401) {
+        throw new Error("Unauthorized access. Please log in.");
+      } else {
+        throw new Error(`Sign-up failed with status ${response.status}`);
+      }
+    }
+
+    console.log("Sign-up successful");
+
+    const data = await response.json();
+    localStorage.setItem("authToken", data.token);
+    localStorage.setItem("userData", JSON.stringify(data.user));
+    navigate("/dashboard");
+  } catch (error) {
+    console.error("Error occurred during sign-up:", error);
+  }
+};
 ```
 
 When Developer B merges his branch i.e., Branch B, the following conflict occurs in branch A:
 
 ```javascript
-// Developer A's changes
-function greet(name) {
+const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    try {
+        const formData = {
+            name: organisationName,
+            user_name: userName,
+            email: userEmail,
+            password: userPassword,
+        };
+
+        const response = await fetch(`${API_ENDPOINT}/organisations`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(formData),
+        });
 <<<<<<< HEAD
-    if (name) {
-        console.log(`Hello ${name} from Developer A.`);
-    } else {
-        console.log(`Hello from Developer A.`);
-    }
+        if (!response.ok) {
+            throw new Error(`Sign-up failed with status ${response.status}`);
+        }
 =======
-    console.log(`Hello ${name || 'stranger'} from Developer B.`);
+        if (!response.ok) {
+            if (response.status === 401) {
+                throw new Error("Unauthorized access. Please log in.");
+            } else {
+                throw new Error(`Sign-up failed with status ${response.status}`);
+            }
+        }
 >>>>>>> Branch B
-}
+
+        console.log("Sign-up successful");
+
+        const data = await response.json();
+        localStorage.setItem("authToken", data.token);
+        localStorage.setItem("userData", JSON.stringify(data.user));
+        navigate("/dashboard");
+    } catch (error) {
+        console.error("Error occurred during sign-up:", error);
+    }
+};
 ```
 
 _The following conflict is resolved either by accepting current branch changes or by accepting incoming changes from other branch or accept both changes._
@@ -83,15 +225,18 @@ Tools such as jest, eslint, prettier, husky and lint-staged are employed to main
 <p>Here's an example of an automated unit test that executes whenever changes are committed to Git and are located within the __tests__ directory.</p>
 
 ```javascript
-const greet = require('./greet');
-
-test('greet function should return a personalized greeting', () => {
-  const name = 'John';
-  expect(greet(name)).toBe(`Hello ${name} from Developer A`);
+test("Test for Signup", () => {
+    let response = await agent.get("/signup");
+    const csrfToken = extractCsrfToken(response);
+    response = await agent.post("/users").send({
+        name: "john",
+        email: "john@example.com",
+        password: "12345678",
+        _csrf: csrfToken,
+    });
+    expect(response.statusCode).toBe(302);
 });
 ```
-
-- **Explanation:** This is a basic test code using Jest to ensure that the `greet` function returns a personalized greeting with the provided name.
 
 ### Potential Issues and Troubleshooting
 
