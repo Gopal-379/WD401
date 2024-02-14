@@ -1,7 +1,8 @@
 # 1. Configuration of Testing Framework.
 
 In the project, Jest has been utilized for unit testing, while Cypress has been employed for integration testing purposes.
-**Jest:** Jest is a user-friendly JavaScript Testing Framework known for its simplicity. It seamlessly integrates with a variety of projects, including those employing Babel, TypeScript, Node, React, Angular, Vue, and more. As a zero-configuration testing platform, Jest is highly recommended as the test runner for your project.
+
+- **Jest:** Jest is a user-friendly JavaScript Testing Framework known for its simplicity. It seamlessly integrates with a variety of projects, including those employing Babel, TypeScript, Node, React, Angular, Vue, and more. As a zero-configuration testing platform, Jest is highly recommended as the test runner for your project.
 
 ### Configuration
 
@@ -28,7 +29,7 @@ npm test
 
 This will run the tests and display the results in the console.
 
-**Cypress:** Cypress is a cutting-edge front-end testing tool designed for the modern web. Renowned for its speed, simplicity, and reliability, Cypress offers robust testing capabilities for any browser-based application. It comes highly recommended for conducting end-to-end testing in your project.
+- **Cypress:** Cypress is a cutting-edge front-end testing tool designed for the modern web. Renowned for its speed, simplicity, and reliability, Cypress offers robust testing capabilities for any browser-based application. It comes highly recommended for conducting end-to-end testing in your project.
 
 ### Configuration
 
@@ -76,6 +77,8 @@ To ensure comprehensive coverage of the application, I've implemented two distin
 
 Unit Testing using Jest:
 
+![unit_test](https://github.com/Gopal-379/WD401/assets/83073228/32c9bce2-2c0a-4434-b0c9-e2550d070000)
+
 **2. Integration Testing**:
 
 - These tests assess the interactions between various components within the application.
@@ -83,6 +86,8 @@ Unit Testing using Jest:
 - Integration testing aids in pinpointing issues that arise during component integration, such as data flow errors or compatibility issues.
 
 Integration Testing using Cypress:
+
+![cypress](https://github.com/Gopal-379/WD401/assets/83073228/de86854f-c40c-4949-ac41-b11c731332de)
 
 # 3. Automatic Test Suite Execution on GitHub.
 
@@ -93,6 +98,7 @@ The test suite is set to run automatically upon pushing changes to GitHub. It is
 Employing Continuous Integration (CI) services to integrate with GitHub repositories is essential for automating the execution of test suites. GitHub Actions is a prominent Continuous Integration service that facilitates this process. The following outlines how to utilize GitHub Actions to automatically run test suites when code is pushed to GitHub:
 
 Step-1: In GitHub repository, create a directory named `.github/workflows`.
+
 Step-2: Inside this directory, create a YAML file named `main.yml`.
 
 # 4. GitHub Actions Walkthrough.
@@ -208,3 +214,5 @@ Here's a breakdown of the steps happening in each part of the workflow:
 In this manner, the workflow file specifies the actions to be executed, automating the execution of the test suite on GitHub.
 
 The following represents the workflow executed using GitHub Actions:
+
+![github_actions](https://github.com/Gopal-379/WD401/assets/83073228/d68dca9d-8fc3-4c6e-982d-f08512e5aff6)
